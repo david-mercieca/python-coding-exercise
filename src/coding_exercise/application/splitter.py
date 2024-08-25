@@ -1,6 +1,7 @@
 from domain.model.cable import Cable
 
-#Author: David Mercieca
+# Author: David Mercieca
+# Date  : 25/8/2024
 class Splitter:
 
     def __validate(self):
@@ -50,7 +51,7 @@ class Splitter:
             remainder_len = cut_len - int_cut_len
             remainders_list.append(remainder_len)
 
-        remainder_len = sum(remainders_list)
+        remainder_len = round(sum(remainders_list),2)
         if remainder_len >= 1:
             number_of_cuts_remaining = int(remainder_len % total_initial_cuts)
             if(remainder_len % total_initial_cuts > 0):
@@ -58,12 +59,13 @@ class Splitter:
                 remainder_len = remainder_len - sum(remainder_cuts_list)
             cut_len_list.extend(remainder_cuts_list)
             return cut_len_list
-        else:
+        elif remainder_len > 0:
             #take another pass decrementing the cut length by 1 if the cut length can be deprecated to a min integer of 1
             if int_cut_len - 1 >= 1:
                 #recursive call
-                self.get_cuts(total_initial_cuts, int_cut_len - 1)
+                cut_len_list = self.get_cuts(total_initial_cuts, int_cut_len - 1)
                 remainders_list.append(remainder_len)
+                print("waste cable=", remainder_len);
         cut_len_list.extend(remainder_cuts_list)
         return cut_len_list
 
@@ -78,7 +80,7 @@ class Splitter:
         return cable_name
 
 # initialise and execute the code
-initial_cable = Cable(50, "coconuts")
+initial_cable = Cable(51, "coconuts")
 cable_splitter = Splitter().split(initial_cable,9)
 for cable in cable_splitter:
     print("cable_name=", cable.name, "cable_len=" + str(cable.length))
