@@ -22,6 +22,7 @@ class Splitter:
         self.times = times
         self.__validate()
         remaining_cable_length = cable.length
+        # +1 to include the original length of cable
         total_initial_cuts = times + 1
         # even split list
         # float
@@ -77,7 +78,7 @@ class Splitter:
         return cable_name
 
 # initialise and execute the code
-initial_cable = Cable(100, "coconuts")
-cable_splitter = Splitter().split(initial_cable,7)
+initial_cable = Cable(50, "coconuts")
+cable_splitter = Splitter().split(initial_cable,9)
 for cable in cable_splitter:
     print("cable_name=", cable.name, "cable_len=" + str(cable.length))
