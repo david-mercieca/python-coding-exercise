@@ -34,19 +34,15 @@ class Splitter:
         else:
             cut_len =   remaining_cable_length / total_initial_cuts
             cuts_list = self.get_cuts(total_initial_cuts,cut_len)
-          #  main_cuts_lst = cuts_list[0]
-           # remainder_cust_lst = cuts_list[1]
-            #main cuts
-            #cables_list.extend([Cable(int(cuts_list[x]), self.generate_cable_name(n)) for x in cuts_list[0] for y in cuts_list[1]])
             cables_list = ([Cable(int(cuts_list[n]), self.generate_cable_name(n)) for n in range(len(cuts_list))])
-            #cables_list.extend([Cable(int(remainder_cust_lst[x]), self.generate_cable_name(n)) for n in range(len(remainder_cust_lst))])
         return cables_list
 
-
+    # generates the master list of main custs off offcuts (leftovers)
     def get_cuts(self, total_initial_cuts,cut_len) -> list:
         cut_len_list = []
         remainders_list = []
         remainder_cuts_list = []
+
         for i in range(total_initial_cuts):
             int_cut_len = int(cut_len)
             cut_len_list.append(int_cut_len)
@@ -70,6 +66,7 @@ class Splitter:
         cut_len_list.extend(remainder_cuts_list)
         return cut_len_list
 
+    #helper method to generate cable name in correct format
     def generate_cable_name(self, idx:int)-> str:
         name_prefix = "coconuts-"
         if idx < 10:
@@ -79,8 +76,8 @@ class Splitter:
         cable_name = name_prefix + name_suffix
         return cable_name
 
-
-initial_cable = Cable(5, "coconuts")
-cable_splitter = Splitter().split(initial_cable,2)
+# initialise and execute the code
+initial_cable = Cable(100, "coconuts")
+cable_splitter = Splitter().split(initial_cable,7)
 for cable in cable_splitter:
     print("cable_name=", cable.name, "cable_len=" + str(cable.length))
